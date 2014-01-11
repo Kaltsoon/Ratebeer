@@ -1,0 +1,10 @@
+<h1>Sign in</h1>
+<p><%= notice %></p>
+<%= form_tag sessions_path do |f| %>
+<label>Username</label>
+<br>
+<%= text_field_tag :username, nil %>
+<br>
+<br>
+<%= submit_tag "Sign in" %>
+<% end %>

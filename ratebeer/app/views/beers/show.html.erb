@@ -12,9 +12,9 @@
 
 <p>
   <b>Brewery:</b>
-  <%= @beer.brewery_id %>
+  <%= @beer.get_brewery_name %>
 </p>
-
-
-<%= link_to 'Edit', edit_beer_path(@beer) %> |
+beer has <%= @beer.ratings.count %> ratings, average <%= @beer.average_rating %>
+<br>
+<br><%= link_to 'Edit', edit_beer_path(@beer) %> |
 <%= link_to 'Back', beers_path %>
