@@ -14,7 +14,7 @@
   <tr>
     <td><%= link_to beer.name, beer_path(beer) %></td>
     <td><%= beer.style %></td>
-    <td><%= link_to Brewery.find(beer.brewery_id).name,Brewery.find(beer.brewery_id) %></td>
+    <td><%= link_to beer.brewery.name, brewery_path(beer.brewery) %></td>
     <td><%= link_to 'Edit', edit_beer_path(beer) %></td>
     <td><%= link_to 'Destroy', beer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
@@ -23,4 +23,4 @@
 
 <br />
 
-<%= link_to 'New Beer', new_beer_path %>
+<%= link_to 'new beer', new_beer_path %>

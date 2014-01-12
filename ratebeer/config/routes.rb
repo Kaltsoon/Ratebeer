@@ -3,7 +3,7 @@ Ratebeer::Application.routes.draw do
   resources :sessions, only: [:new,:create,:destroy]
   resources :beers
   resources :breweries
-  resources :ratings
+  resources :ratings, only: [:index,:new,:create,:destroy]
   root to: "breweries#index"
   get "signin", to: "sessions#new"
   get "ratings", to: "ratings#index"

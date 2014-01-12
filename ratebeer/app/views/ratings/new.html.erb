@@ -2,7 +2,7 @@
 <%= form_for(@rating) do |f| %>
 <label>beer id</label>
 <br>
-<%= f.select :beer_id, options_from_collection_for_select(@beers, :id, :name) %>
+<%= f.select :beer_id, options_from_collection_for_select(@beers, "id", "to_s") %>
 <br>
 <label>score</label>
 <br>
