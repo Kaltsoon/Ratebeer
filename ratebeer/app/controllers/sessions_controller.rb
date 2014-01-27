@@ -4,8 +4,8 @@ class SessionsController < ApplicationController
 	end
 	def create
 		user=User.find_by_username(params[:username])
-		if(user==nil)
-			redirect_to "/signin", notice: "Wrong username or password!"
+		if(user==nil || user.authenticate(params[:password])==false)
+			redirect_to :back, notice: "Wrong username or password!"
 			return
 		end
 		session[:user_id]=user.id

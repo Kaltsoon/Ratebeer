@@ -1,6 +1,13 @@
 class BreweriesController < ApplicationController
   # GET /breweries
   # GET /breweries.json
+  before_filter :authenticate, only: [:destroy]
+  def authenticate
+    admin_accounts = { "admin" => "secret", "pekka" => "beer", "arto" => "foobar", "matti" => "ittam"}
+    authenticate_or_request_with_http_basic do |username, password|
+      admin_accounts[username]!=nil && admin_accounts[username]==password
+    end
+  end
   def index
     @breweries = Brewery.all
 
@@ -41,15 +48,15 @@ class BreweriesController < ApplicationController
   # POST /breweries.json
   def create
     @brewery = Brewery.new(params[:brewery])
-
-    respond_to do |format|
-      if @brewery.save
-        format.html { redirect_to @brewery, notice: 'Brewery was successfully created.' }
-        format.json { render json: @brewery, status: :created, location: @brewery }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @brewery.errors, status: :unprocessable_entity }
-      end
+    if(params[:brewery][:year].to_i>Time.now.year)
+      @brewery.errors[:base]="Year can't be past current year!"
+      render :edit
+      return
+    end
+    if(@brewery.save)
+      redirect_to brewery_path(@brewery)
+    else
+      render :new
     end
   end
 
@@ -57,15 +64,15 @@ class BreweriesController < ApplicationController
   # PUT /breweries/1.json
   def update
     @brewery = Brewery.find(params[:id])
-
-    respond_to do |format|
-      if @brewery.update_attributes(params[:brewery])
-        format.html { redirect_to @brewery, notice: 'Brewery was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @brewery.errors, status: :unprocessable_entity }
-      end
+    if(params[:brewery][:year].to_i>Time.now.year)
+      @brewery.errors[:base]="Year can't be past current year!"
+      render :edit
+      return
+    end
+    if(@brewery.update_attributes(year: params[:brewery][:year], name: params[:brewery][:name]))
+      redirect_to brewery_path(@brewery)
+    else
+      render :edit
     end
   end
 

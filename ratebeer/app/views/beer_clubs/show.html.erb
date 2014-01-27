@@ -1,0 +1,15 @@
+<h1><%= @beer_club.name %>, <%= @beer_club.city %></h1>
+
+<p>
+	Founded at <%= @beer_club.founded %>
+</p>
+<p>
+	<strong>Members (<%= @beer_club.users.count %>):</strong>
+	<ul>
+		<% @beer_club.users.each do |member| %>
+		<li><%= link_to member, user_path(member) %></li>
+		<% end %>
+	</ul>
+</p>
+
+<%= link_to 'Edit', edit_beer_club_path(@beer_club) %>

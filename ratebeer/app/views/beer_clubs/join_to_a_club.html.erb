@@ -1,0 +1,11 @@
+<h1>Join to a club</h1>
+<%= form_tag joining_club_path, method: :post %>
+<%= label_tag :club_id, "club name" %>
+<br>
+<%= select_tag :club_id, options_from_collection_for_select(@clubs, "id", "to_s") %>
+<br>
+<br>
+<%= submit_tag "Join the club" %>
+<br>
+<br>
+<%= link_to "Back", :back %>

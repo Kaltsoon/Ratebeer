@@ -1,10 +1,29 @@
 <p id="notice"><%= notice %></p>
 <h1><%= @user.username %></h1>
 <p>
-
+has given <%= pluralize(@user.ratings.count, "rating", "ratings") %>, average <%= @user.average_rating %>
+<h3>Ratings</h3>
+<ul>
+	<% @user.ratings.each do |rating| %>
+	<li><%= rating %> 
+		<% if currently_signed_in?(@user) %>
+		<%= link_to "delete", rating_path(rating), method: :delete, data: { confirm: "Are you sure?"} %>
+		<% end %>
+	</li>
+	<% end %>
+</ul>
 </p>
 
-
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<p>
+	<strong>Clubs (<%= @user.beer_clubs.count %>):</strong>
+	<ul>
+		<% @user.beer_clubs.each do |club| %>
+		<li><%= link_to club.name, beer_club_path(club) %></li>
+		<% end %>
+	</ul>
+</p>
+<% if(currently_signed_in?(@user)) %>
+<%= link_to 'Edit', edit_user_path(@user) %>
+|
+<%= link_to "Destroy", user_path(@user), method: :delete, data: {confirm: "Are you sure?"} %>
+<% end %>

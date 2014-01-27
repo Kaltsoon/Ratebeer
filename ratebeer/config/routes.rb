@@ -1,4 +1,10 @@
 Ratebeer::Application.routes.draw do
+  resources :memberships
+
+
+  resources :beer_clubs
+
+
   resources :users
   resources :sessions, only: [:new,:create,:destroy]
   resources :beers
@@ -8,6 +14,9 @@ Ratebeer::Application.routes.draw do
   get "signin", to: "sessions#new"
   get "ratings", to: "ratings#index"
   delete "signout", to: "sessions#destroy"
+  get "signup", to: "users#new"
+  get "join_to_a_club", to: "beer_clubs#join_to_a_club"
+  post "joining_club", to: "beer_clubs#joining_club"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
