@@ -1,6 +1,7 @@
 class BeerClubsController < ApplicationController
   # GET /beer_clubs
   # GET /beer_clubs.json
+  before_filter :ensure_that_signed_in, only: [:new, :create, :edit, :destroy, :update]
   def index
     @beer_clubs = BeerClub.all
 
@@ -41,7 +42,6 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/new.json
   def new
     @beer_club = BeerClub.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @beer_club }

@@ -1,24 +1,27 @@
 <h1>Listing breweries</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Year</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @breweries.each do |brewery| %>
-  <tr>
-    <td><%= link_to brewery.name,brewery %></td>
-    <td><%= brewery.year %></td>
-    <td><%= link_to 'Edit', edit_brewery_path(brewery) %></td>
-    <td><%= link_to 'Destroy', brewery, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+number of breweries <%= @breweries.count %>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Year</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @breweries.each do |brewery| %>
+    <tr>
+      <td><%= link_to brewery.name,brewery %></td>
+      <td><%= brewery.year %></td>
+      <td><%= link_to 'Edit', edit_brewery_path(brewery) unless current_user.nil? %></td>
+      <td><%= link_to 'Destroy', brewery, method: :delete, data: { confirm: 'Are you sure?' } unless current_user.nil? %></td>
+    </tr>
+    <% end %>
+  </tbody>
 </table>
 
 <br />
 
-<%= link_to 'New Brewery', new_brewery_path %>
+<%= link_to 'New Brewery', new_brewery_path unless current_user.nil? %>

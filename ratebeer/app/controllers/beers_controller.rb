@@ -1,6 +1,7 @@
 class BeersController < ApplicationController
   # GET /beers
   # GET /beers.json
+  before_filter :ensure_that_signed_in, only: [:new, :create, :edit, :update, :destroy]
   def index
     @beers = Beer.all
 

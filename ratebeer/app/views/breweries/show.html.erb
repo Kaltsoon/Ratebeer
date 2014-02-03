@@ -12,4 +12,4 @@
   </ul>
   beers of the brewery have <%= pluralize(@brewery.ratings.count,"rating","ratings") %>, average <%= @brewery.average_rating %>
 </p>
-<%= link_to 'Edit', edit_brewery_path(@brewery) %>
+<%= link_to 'Edit', edit_brewery_path(@brewery) unless current_user.nil? %>

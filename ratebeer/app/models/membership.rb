@@ -3,5 +3,4 @@ class Membership < ActiveRecord::Base
   belongs_to :user
   belongs_to :beer_club
   validates_uniqueness_of :user_id, scope: :beer_club_id
-  attr_accessible :beer_club_id, :user_id
 end

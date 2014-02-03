@@ -20,4 +20,4 @@ beer has <%= pluralize(@beer.ratings.count, "rating", "ratings") %>, average <%=
 beer has not yet been rated!
 <% end %>
 <br>
-<br><%= link_to 'Edit', edit_beer_path(@beer) %>
+<br><%= link_to 'Edit', edit_beer_path(@beer) unless current_user.nil? %>

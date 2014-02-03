@@ -1,7 +1,14 @@
 <p id="notice"><%= notice %></p>
 <h1><%= @user.username %></h1>
 <p>
-has given <%= pluralize(@user.ratings.count, "rating", "ratings") %>, average <%= @user.average_rating %>
+has given <%= pluralize(@user.ratings.count, "rating", "ratings") %>, average <%= @user.average_rating %>. 
+<h3>Favorites</h3>
+<ul>
+<% if @user.ratings.any? %>
+	<li>Favorite beer style is <i><%= @user.favorite_style %></i></li>
+	<li>Favorite brewery is <i><%= @user.favorite_brewery.name %></i></li>
+</ul>
+<% end %>
 <h3>Ratings</h3>
 <ul>
 	<% @user.ratings.each do |rating| %>
