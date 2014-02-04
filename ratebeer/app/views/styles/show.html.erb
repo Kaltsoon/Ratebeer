@@ -1,0 +1,13 @@
+<h1>
+  <%= @style.name %>
+</h1>
+style has <%= pluralize(@style.beers.count, "beer", "beers") %>
+<ul>
+	<% @style.beers.each do |beer| %>
+	<li><%= link_to beer.name, beer_path(beer) %></li>
+	<% end %>
+</ul>
+
+
+
+<%= link_to 'Edit', edit_style_path(@style) %>

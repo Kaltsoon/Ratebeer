@@ -12,10 +12,11 @@ FactoryGirl.define do
   factory :rating2, :class => Rating do
     score 20
   end
-
+  factory :style do
+    name "Bisse"
+  end
   factory :beer do
     name "Kalja"
-    style "Bisse"
   end
 
   factory :brewery do

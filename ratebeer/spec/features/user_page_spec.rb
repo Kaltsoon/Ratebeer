@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe "User" do
+	let(:style){ FactoryGirl.create(:style) }
 	before :each do
 		@user=FactoryGirl.create(:user)
 		visit signin_path
@@ -8,17 +9,22 @@ describe "User" do
     	fill_in('password', :with => 'Foobar1')
     	click_button('Log in')
     	@brewery=FactoryGirl.create(:brewery)
-		@beer=FactoryGirl.create(:beer, brewery: @brewery)
+		@beer=FactoryGirl.create(:beer, style: style, brewery: @brewery)
 		@rating=FactoryGirl.create(:rating, user: @user, beer: @beer, score: 10)
 	end
 	it "has ratings showing on his page" do
+		# Doesn't have other user's ratings
+		user2=FactoryGirl.create(:user, username: "Simo", password: "Foobar1")
+		FactoryGirl.create(:rating, user: user2, score: 20, beer: @beer)
 		visit user_path(@user)
 		expect(page).to have_content("Kalja 10")
+		# Should not have content "Kalja 20"
+		expect(page).to  have_no_content("Kalja 20")
 	end
 	it "can add a beer" do
 		visit new_beer_path
 		fill_in("beer[name]", with: "Kalja")
-		select("Weizen", from: "beer[style]")
+		select("Bisse", from: "beer[style_id]")
 		select("Kaljala", from: "beer[brewery_id]")
 		click_button("Create Beer")
 		expect(Beer.all.count).to be(2)

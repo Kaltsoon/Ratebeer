@@ -1,6 +1,7 @@
 require 'spec_helper'
   describe User do
     let(:user){ FactoryGirl.create(:user) }
+    let(:style){ FactoryGirl.create(:style) }
     it "doesn't accept too short password" do
     	user=User.create(username: "Timo", password: "a")
     	expect(user.valid?).to be(false)
@@ -19,7 +20,7 @@ require 'spec_helper'
     end
     it "has favorite beer style" do
       user.should respond_to :favorite_style
-      beer=FactoryGirl.create(:beer)
+      beer=FactoryGirl.create(:beer, style: style)
       rating=FactoryGirl.create(:rating, beer: beer, user: user)
       user.ratings.push(rating)
       user.favorite_style.should==rating.beer.style
@@ -27,7 +28,7 @@ require 'spec_helper'
     it "has favorite brewery" do 
       user.should respond_to :favorite_brewery
       brewery=FactoryGirl.create(:brewery)
-      beer=FactoryGirl.create(:beer, brewery: brewery)
+      beer=FactoryGirl.create(:beer, style: style, brewery: brewery)
       rating=FactoryGirl.create(:rating, beer: beer, user: user)
       user.ratings.push(rating)
       user.favorite_brewery.name.should==rating.beer.brewery.name
