@@ -11,5 +11,11 @@
 		<% end %>
 	</ul>
 </p>
-
+<% if(not @beer_club.users.include?(current_user)) %>
+	<h4>Join the club</h4>
+	<%= form_tag joining_club_path do %>
+		<%= hidden_field_tag :club_id, @beer_club.id %>
+		<%= submit_tag "Join this club", class: "btn btn-primary" %>
+	<% end %>
+<% end %>
 <%= link_to 'Edit', edit_beer_club_path(@beer_club) unless current_user.nil? %>

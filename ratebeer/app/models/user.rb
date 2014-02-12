@@ -13,37 +13,37 @@ class User < ActiveRecord::Base
   def to_s
   	return username
   end
+  
   def favorite_style
-    styles={}
+    styles=ratings.map{|r| r.beer.style}.uniq
     max_score=-1
     max_style=nil
-    ratings.each do |r|
-      if(styles[r.beer.style].nil?)
-        styles[r.beer.style]=average_of_style(r.beer.style)
-        if(r.score>max_score)
-          max_score=r.score
-          max_style=r.beer.style
+    styles.each do |s|
+        score=average_of_style(s)
+        if(score>max_score)
+          max_score=score
+          max_style=s
         end
-      end
     end
     return max_style
   end
+
   def favorite_brewery
-    breweries={}
+    breweries=ratings.map{|r| r.beer.brewery}.uniq
     max_score=-1
     max_brewery=nil
-    ratings.each do |r|
-      if(breweries[r.beer.brewery.id].nil?)
-        breweries[r.beer.brewery.id]=average_of_brewery(r.beer.brewery.id)
-        if(r.score>max_score)
-          max_score=r.score
-          max_brewery=r.beer.brewery
-        end
+    breweries.each do |b|  
+      score=average_of_brewery(b.id)
+      if(score>max_score)
+        max_score=score
+        max_brewery=b
       end
     end
     return max_brewery
   end
+
   private
+
   def average_of_brewery(brewery_id)
     sum=0
     count=0
@@ -55,6 +55,7 @@ class User < ActiveRecord::Base
     end
     return (count==0 ? 0 : sum/count.to_f)
   end
+
   def average_of_style(style)
     sum=0
     count=0
@@ -66,4 +67,5 @@ class User < ActiveRecord::Base
     end
     return (count==0 ? 0 : sum/count.to_f)
   end
+
 end

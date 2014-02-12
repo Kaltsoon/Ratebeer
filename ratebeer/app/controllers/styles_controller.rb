@@ -1,4 +1,5 @@
 class StylesController < ApplicationController
+  before_filter :ensure_that_signed_in, only: [:create, :new, :update, :edit]
   # GET /styles
   # GET /styles.json
   def index

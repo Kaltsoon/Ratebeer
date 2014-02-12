@@ -2,6 +2,7 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs
   # GET /beer_clubs.json
   before_filter :ensure_that_signed_in, only: [:new, :create, :edit, :destroy, :update]
+  before_filter :initialize_form, only: [:join_to_a_club, :joining_club]
   def index
     @beer_clubs = BeerClub.all
 
@@ -22,20 +23,25 @@ class BeerClubsController < ApplicationController
     end
   end
   def join_to_a_club
+    @membership=Membership.new
     user=current_user
     if(user==nil)
       redirect_to :root
     end
-    @clubs=BeerClub.all
   end
+
   def joining_club
     club=BeerClub.find params[:club_id]
     user=current_user
     if(user==nil)
       redirect_to :root
     else
-      Membership.create(user_id: user.id, beer_club_id: club.id)
-      redirect_to beer_club_path(club)
+      @membership=Membership.new(user_id: user.id, beer_club_id: club.id)
+      if(@membership.save)
+        redirect_to beer_club_path(club)
+      else
+        render :join_to_a_club
+      end 
     end
   end
   # GET /beer_clubs/new
@@ -95,5 +101,11 @@ class BeerClubsController < ApplicationController
       format.html { redirect_to beer_clubs_url }
       format.json { head :no_content }
     end
+  end
+  
+  private
+
+  def initialize_form
+    @clubs=BeerClub.all
   end
 end
