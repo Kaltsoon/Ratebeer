@@ -25,11 +25,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new.json
   def new
     @membership = Membership.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @membership }
-    end
+    @clubs=BeerClub.all
   end
 
   # GET /memberships/1/edit
@@ -40,16 +36,18 @@ class MembershipsController < ApplicationController
   # POST /memberships
   # POST /memberships.json
   def create
-    @membership = Membership.new(params[:membership])
-
-    respond_to do |format|
-      if @membership.save
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
-        format.json { render json: @membership, status: :created, location: @membership }
+    club=BeerClub.find params[:club_id]
+    user=current_user
+    if(user==nil)
+      redirect_to :root
+    else
+      @membership=Membership.new(user_id: user.id, beer_club_id: club.id)
+      if(@membership.save)
+        redirect_to beer_club_path(club), notice: "#{user}, welcome to the club!"
       else
-        format.html { render action: "new" }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
-      end
+        @clubs=BeerClub.all
+        render :new
+      end 
     end
   end
 
@@ -72,12 +70,10 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
-    @membership = Membership.find(params[:id])
-    @membership.destroy
-
-    respond_to do |format|
-      format.html { redirect_to memberships_url }
-      format.json { head :no_content }
+    if(not current_user.nil?)
+      @membership = Membership.find(params[:id])
+      @membership.destroy
+      redirect_to beer_club_path(@membership.beer_club)
     end
   end
 end

@@ -1,7 +1,6 @@
-<%= form_for(@membership) do |f| %>
-  <% if @membership.errors.any? %>
+<% if @membership.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@membership.errors.count, "error") %> prohibited this membership from being saved:</h2>
+      <h2><%= pluralize(@membership.errors.count, "error") %> prohibited this beer_club from being saved:</h2>
 
       <ul>
       <% @membership.errors.full_messages.each do |msg| %>
@@ -10,16 +9,10 @@
       </ul>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= f.label :beer_club_id %><br />
-    <%= f.number_field :beer_club_id %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
+<%= form_tag memberships_path, method: :post %>
+<%= label_tag :club_id, "club name" %>
+<br>
+<%= select_tag :club_id, options_from_collection_for_select(@clubs, "id", "to_s") %>
+<br>
+<br>
+<%= submit_tag "Join the club", class: "btn btn-primary" %>

@@ -17,7 +17,7 @@ class BeersController < ApplicationController
     @beers = Beer.all.sort_by{ |b| b.send(params[:order] || 'name') }
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @beers }
+      format.json { render json: @beers, methods: [:brewery, :style] }
     end
   end
 

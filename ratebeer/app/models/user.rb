@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :password, :username, :password_confirmation
+  attr_accessible :password, :username, :password_confirmation, :admin
   has_many :ratings, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :beer_clubs, through: :memberships

@@ -26,7 +26,7 @@ describe "User" do
 		fill_in("beer[name]", with: "Kalja")
 		select("Bisse", from: "beer[style_id]")
 		select("Kaljala", from: "beer[brewery_id]")
-		click_button("Create Beer")
+		click_button("Save")
 		expect(Beer.all.count).to be(2)
 	end
 	it "can destroy review" do

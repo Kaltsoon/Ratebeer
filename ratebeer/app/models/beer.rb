@@ -1,5 +1,5 @@
 class Beer < ActiveRecord::Base
-  attr_accessible :brewery_id, :name, :style_id, :style
+  attr_accessible :brewery_id, :name, :style_id, :style, :brewery
   belongs_to :brewery
   belongs_to :style
   has_many :ratings, dependent: :destroy

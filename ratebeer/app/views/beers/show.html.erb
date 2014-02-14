@@ -21,7 +21,7 @@ beer has not yet been rated!
 <br>
 <br><%= link_to 'Edit', edit_beer_path(@beer) unless current_user.nil? %>
 <% if(not current_user.nil?) %>
-	<h4>Give a rating<h4>
+	<h4>Give a rating</h4>
 	<%= form_tag ratings_path do %>
 	<%= hidden_field_tag "rating[beer_id]", @beer.id %>
 	<div class="field">
@@ -33,3 +33,5 @@ beer has not yet been rated!
 <% else %>
 	<%= link_to "Signin to review this beer", signin_path %>
 <% end %>
+<%= link_to "Edit", edit_beer_path(@beer), class: "btn btn-default" unless current_user.nil? %>
+ <%= link_to 'Destroy', @beer, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } unless current_user.nil? %>

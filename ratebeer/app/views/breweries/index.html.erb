@@ -5,9 +5,6 @@ number of breweries <%= @breweries.count %>
     <tr>
       <th>Name</th>
       <th>Year</th>
-      <th></th>
-      <th></th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -15,8 +12,6 @@ number of breweries <%= @breweries.count %>
     <tr>
       <td><%= link_to brewery.name,brewery %></td>
       <td><%= brewery.year %></td>
-      <td><%= link_to 'Edit', edit_brewery_path(brewery) unless current_user.nil? %></td>
-      <td><%= link_to 'Destroy', brewery, method: :delete, data: { confirm: 'Are you sure?' } unless current_user.nil? %></td>
     </tr>
     <% end %>
   </tbody>

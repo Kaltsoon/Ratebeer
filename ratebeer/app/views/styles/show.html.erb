@@ -1,6 +1,9 @@
 <h1>
   <%= @style.name %>
 </h1>
+<p>
+	<%= @style.description %>
+</p>
 style has <%= pluralize(@style.beers.count, "beer", "beers") %>
 <ul>
 	<% @style.beers.each do |beer| %>
@@ -8,6 +11,5 @@ style has <%= pluralize(@style.beers.count, "beer", "beers") %>
 	<% end %>
 </ul>
 
-
-
-<%= link_to 'Edit', edit_style_path(@style) %>
+<%= link_to "Edit", edit_style_path(@style), class: "btn btn-default" unless current_user.nil? %>
+ <%= link_to 'Destroy', @style, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } unless current_user.nil? %>

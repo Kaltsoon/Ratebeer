@@ -37,5 +37,4 @@ class BeermappingAPI
           set << Place.new(place)
         end
     end
-
 end

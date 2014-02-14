@@ -16,32 +16,11 @@ class BeerClubsController < ApplicationController
   # GET /beer_clubs/1.json
   def show
     @beer_club = BeerClub.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @beer_club }
-    end
-  end
-  def join_to_a_club
-    @membership=Membership.new
-    user=current_user
-    if(user==nil)
-      redirect_to :root
-    end
-  end
-
-  def joining_club
-    club=BeerClub.find params[:club_id]
-    user=current_user
-    if(user==nil)
-      redirect_to :root
+    if(not current_user.nil?)
+      memberships=Membership.where(user_id: current_user.id, beer_club_id: params[:id])
+      @membership=(memberships.empty? ? nil : memberships.first)
     else
-      @membership=Membership.new(user_id: user.id, beer_club_id: club.id)
-      if(@membership.save)
-        redirect_to beer_club_path(club)
-      else
-        render :join_to_a_club
-      end 
+      @membershi=nil
     end
   end
   # GET /beer_clubs/new

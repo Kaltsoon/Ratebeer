@@ -3,12 +3,7 @@ class BreweriesController < ApplicationController
   # GET /breweries.json
   before_filter :ensure_that_signed_in, only: [:new, :create, :edit, :update]
   before_filter :ensure_that_admin, only: [:destroy]
-  def authenticate
-    admin_accounts = { "admin" => "secret", "pekka" => "beer", "arto" => "foobar", "matti" => "ittam"}
-    authenticate_or_request_with_http_basic do |username, password|
-      admin_accounts[username]!=nil && admin_accounts[username]==password
-    end
-  end
+
   def index
     @breweries = Brewery.all
 

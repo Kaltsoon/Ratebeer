@@ -1,5 +1,7 @@
 <h1><%= @beer_club.name %>, <%= @beer_club.city %></h1>
-
+<p>
+	<%= notice %>
+</p>
 <p>
 	Founded at <%= @beer_club.founded %>
 </p>
@@ -11,11 +13,18 @@
 		<% end %>
 	</ul>
 </p>
-<% if(not @beer_club.users.include?(current_user)) %>
+<% if(not @beer_club.users.include?(current_user) and not current_user.nil?)  %>
 	<h4>Join the club</h4>
-	<%= form_tag joining_club_path do %>
+	<%= form_tag memberships_path do %>
 		<%= hidden_field_tag :club_id, @beer_club.id %>
 		<%= submit_tag "Join this club", class: "btn btn-primary" %>
 	<% end %>
 <% end %>
-<%= link_to 'Edit', edit_beer_club_path(@beer_club) unless current_user.nil? %>
+<% if(not @membership.nil?) %>
+<h4>Resign the club</h4>
+<p>
+<%= link_to "Resign this beer club", membership_path(@membership), class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
+</p>
+<% end %>
+<%= link_to "Edit", edit_beer_club_path(@beer_club), class: "btn btn-default" unless current_user.nil? %>
+ <%= link_to 'Destroy', @beer_club, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } unless current_user.nil? %>
