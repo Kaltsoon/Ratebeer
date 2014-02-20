@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140212080658) do
+ActiveRecord::Schema.define(:version => 20140217164817) do
 
   create_table "beer_clubs", :force => true do |t|
     t.string   "name"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(:version => 20140212080658) do
     t.integer  "year"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.boolean  "active"
   end
 
   create_table "memberships", :force => true do |t|
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20140212080658) do
     t.integer  "user_id"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.boolean  "confirmed"
   end
 
   create_table "ratings", :force => true do |t|
@@ -77,5 +79,7 @@ ActiveRecord::Schema.define(:version => 20140212080658) do
     t.string   "password_digest"
     t.boolean  "admin",           :default => false
   end
+
+  add_index "users", ["username"], :name => "index_users_on_username"
 
 end

@@ -3,7 +3,6 @@ class MembershipsController < ApplicationController
   # GET /memberships.json
   def index
     @memberships = Membership.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @memberships }
@@ -41,7 +40,7 @@ class MembershipsController < ApplicationController
     if(user==nil)
       redirect_to :root
     else
-      @membership=Membership.new(user_id: user.id, beer_club_id: club.id)
+      @membership=Membership.new(user_id: user.id, beer_club_id: club.id, confirmed: false)
       if(@membership.save)
         redirect_to beer_club_path(club), notice: "#{user}, welcome to the club!"
       else
@@ -51,20 +50,16 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def confirm
+
+  end
+
   # PUT /memberships/1
   # PUT /memberships/1.json
   def update
     @membership = Membership.find(params[:id])
-
-    respond_to do |format|
-      if @membership.update_attributes(params[:membership])
-        format.html { redirect_to @membership, notice: 'Membership was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
-      end
-    end
+    @membership.update_attributes(confirmed: true)
+    redirect_to beer_club_path(@membership.beer_club)
   end
 
   # DELETE /memberships/1

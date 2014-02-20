@@ -1,6 +1,12 @@
 <p id="notice"><%= notice %></p>
-
-<h2><%= @brewery.name %> <i>Established year <%= @brewery.year %></i></h2>
+<% cache "showbrewery", skip_digest: true do %>
+<h2>
+	<%= @brewery.name %> 
+	<i>Established year <%= @brewery.year %></i>
+	<% if not @brewery.active %>
+		<span class="label">retired</span>
+	<% end %>
+</h2>
 <p>
   <strong>Beers: <%= @brewery.beers.count %></strong>
   <ul>
@@ -12,5 +18,6 @@
   </ul>
   beers of the brewery have <%= pluralize(@brewery.ratings.count,"rating","ratings") %>, average <%= @brewery.average_rating %>
 </p>
+<% end %>
 <%= link_to "Edit", edit_brewery_path(@brewery), class: "btn btn-default" unless current_user.nil? %>
  <%= link_to 'Destroy', @brewery, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } if ensure_that_admin %>

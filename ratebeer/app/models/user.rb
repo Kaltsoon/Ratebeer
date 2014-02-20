@@ -1,15 +1,32 @@
 class User < ActiveRecord::Base
   attr_accessible :password, :username, :password_confirmation, :admin
+  
   has_many :ratings, dependent: :destroy
   has_many :memberships, dependent: :destroy
   has_many :beer_clubs, through: :memberships
+  
   include RatingAverage
+  
   has_secure_password
+  
   validates_confirmation_of :password
   validates_uniqueness_of :username
   validates_length_of :password, minimum: 4
   validates_format_of :password, with: /(.*[0-9].*[A-Z].*)|(.*[A-Z].*[0-9].*)/
   validates_length_of :username, within: 3..15
+  
+  def self.most_ratings
+    return User.includes(:ratings).all.sort_by{|user| -user.ratings.count}.take(3)
+  end
+
+  def pending_applications
+    return Membership.where(user_id: id, confirmed: false).map{|m| m.beer_club}
+  end
+
+  def accepted_applications
+    return Membership.where(user_id: id, confirmed: true).map{|m| m.beer_club}
+  end
+
   def to_s
   	return username
   end

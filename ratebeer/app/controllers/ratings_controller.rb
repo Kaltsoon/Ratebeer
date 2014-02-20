@@ -2,7 +2,11 @@ class RatingsController < ApplicationController
   before_filter :ensure_that_signed_in, only: [:new, :create]
   def index
     @ratings=Rating.all
-  	render :index
+    @latest_ratings=Rating.latest
+    @best_beers=Beer.highest_ratings
+    @best_breweries=Brewery.highest_ratings
+    @best_styles=Style.highest_ratings
+    @most_active_users=User.most_ratings
   end
   def new
     if(current_user.nil?)
@@ -10,7 +14,6 @@ class RatingsController < ApplicationController
     else
     	@beers=Beer.all
     	@rating = Rating.new
-    	render :new
     end
   end
   def create

@@ -12,6 +12,6 @@ module RatingAverage
     	ratings.each do |rating|
       		sum+=rating.score
     	end
-    	return sum/ratings.count.to_f
+    	return (sum/ratings.count.to_f).round(1)
 	end
 end

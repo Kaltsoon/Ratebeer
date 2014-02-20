@@ -1,8 +1,25 @@
 <h1>List of ratings</h1>
 number of ratings <%= @ratings.count %>
-<ul>
-  <% @ratings.each do |rating| %>
-  <li><%= rating %>, <%= link_to rating.user, user_path(rating.user) %></li>
-  <% end %>
+<ul class="inline">
+	<li>
+		<h3>Best beers</h3>
+		<%= render "list", items: @best_beers %>
+	</li>
+	<li>
+		<h3>Best breweries</h3>
+		<%= render "list", items: @best_breweries %>
+	</li>
+	<li>
+		<h3>Best styles</h3>
+		<%= render "list", items: @best_styles %>
+	</li>
 </ul>
-<%= link_to "New rating", new_rating_path unless current_user.nil? %>
+<h3>Most active users</h3>
+<%= render "most_active_users", users: @most_active_users %>
+<%= link_to "New rating", new_rating_path, class: "btn btn-success" unless current_user.nil? %>
+<h3>Latest ratings</h3>
+<ul>
+	<% @latest_ratings.each do |rating| %>
+		<li><%= rating %>, by <%= link_to rating.user, rating.user %></li>
+	<% end %>
+</ul>

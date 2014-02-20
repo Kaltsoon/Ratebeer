@@ -6,10 +6,10 @@
 	Founded at <%= @beer_club.founded %>
 </p>
 <p>
-	<strong>Members (<%= @beer_club.users.count %>):</strong>
+	<strong>Members (<%= @beer_club.confirmed_users.count %>):</strong>
 	<ul>
-		<% @beer_club.users.each do |member| %>
-		<li><%= link_to member, user_path(member) %></li>
+		<% @beer_club.confirmed_memberships.each do |m| %>
+		<li><%= link_to m.user.username, user_path(m.user) %></li>
 		<% end %>
 	</ul>
 </p>
@@ -20,11 +20,23 @@
 		<%= submit_tag "Join this club", class: "btn btn-primary" %>
 	<% end %>
 <% end %>
-<% if(not @membership.nil?) %>
-<h4>Resign the club</h4>
-<p>
-<%= link_to "Resign this beer club", membership_path(@membership), class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
-</p>
+<% if(@beer_club.confirmed_users.include?(current_user)) && @beer_club.not_confirmed_memberships.count>0 %>
+	<h4>Outstanding applications</h4>
+	<ul>
+		<% @beer_club.not_confirmed_memberships.each do |m| %>
+			<%= form_tag membership_path(m), method: :put do %>
+			<li>
+				<%= link_to m.user.username, user_path(m.user) %>
+				<%= submit_tag "Confirm", class: "btn btn-primary" %>
+			</li>
+			<% end %>
+		<% end %>
+	</ul>
 <% end %>
-<%= link_to "Edit", edit_beer_club_path(@beer_club), class: "btn btn-default" unless current_user.nil? %>
- <%= link_to 'Destroy', @beer_club, class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } unless current_user.nil? %>
+<% if(@beer_club.confirmed_users.include?(current_user)) %>
+	<h4>Resign the club</h4>
+	<p>
+	<%= link_to "Resign this beer club", membership_path(@membership), class: "btn btn-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
+	</p>
+<% end %>
+<%= render "edit_and_destroy_buttons", beer_club: @beer_club %>

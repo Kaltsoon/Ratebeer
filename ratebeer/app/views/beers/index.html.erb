@@ -1,4 +1,5 @@
 <h1>Listing beers</h1>
+<% cache 'beerlist', skip_digest: true do %>
 number of beers <%= @beers.count %>
 <table class="table table-hover">
   <thead>
@@ -18,7 +19,7 @@ number of beers <%= @beers.count %>
   <% end %>
   </tbody>
 </table>
-
+<% end %>
 <br />
 
-<%= link_to 'New beer', new_beer_path unless current_user.nil? %>
+<%= link_to 'New beer', new_beer_path, class: "btn btn-success" unless current_user.nil? %>

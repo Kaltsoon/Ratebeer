@@ -42,15 +42,11 @@ class BeerClubsController < ApplicationController
   # POST /beer_clubs.json
   def create
     @beer_club = BeerClub.new(params[:beer_club])
-
-    respond_to do |format|
-      if @beer_club.save
-        format.html { redirect_to @beer_club, notice: 'Beer club was successfully created.' }
-        format.json { render json: @beer_club, status: :created, location: @beer_club }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @beer_club.errors, status: :unprocessable_entity }
-      end
+    if @beer_club.save
+      Membership.create(beer_club_id: @beer_club.id, user_id: current_user.id, confirmed: true)
+      redirect_to @beer_club, notice: 'Beer club was successfully created.'
+    else
+      render :new
     end
   end
 
@@ -58,7 +54,6 @@ class BeerClubsController < ApplicationController
   # PUT /beer_clubs/1.json
   def update
     @beer_club = BeerClub.find(params[:id])
-
     respond_to do |format|
       if @beer_club.update_attributes(params[:beer_club])
         format.html { redirect_to @beer_club, notice: 'Beer club was successfully updated.' }
